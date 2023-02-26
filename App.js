@@ -3,38 +3,42 @@ import { useSpotifyAuth } from "./utils";
 import { Images, Themes } from "./assets/Themes";
 import AuthButton from "./components/AuthButton";
 import SongList from "./components/SongList";
+import { NavigationContainer } from '@react-navigation/native';
+import 'react-native-gesture-handler';
+import { createStackNavigator } from '@react-navigation/stack';
+import HomeScreen from "./screens/HomeScreen";
+import DetailScreen from "./screens/DetailScreen";
+import PreviewScreen from "./screens/PreviewScreen";
 
 // import { TouchableWithoutFeedback } from "react-native-web";
-const windowWidth = Dimensions.get("window").width;
 
-export default function App() {
-  // Pass in true to useSpotifyAuth to use the album ID (in env.js) instead of top tracks
-  const { token, tracks, getSpotifyAuth } = useSpotifyAuth();
+const Stack = createStackNavigator();
 
-  console.log("token", token);
-  console.log("tracks", tracks);
-
-  let contentDisplayed = null;
-
-  if (token) {
-    contentDisplayed = <SongList tracks = {tracks}/>;
-  }
-  else {
-    contentDisplayed = <AuthButton authenticationFunction = {getSpotifyAuth}/>;
-  }
-
+export default function App({ navigation }) {
   return (
-    <SafeAreaView style={styles.container}>
-      {contentDisplayed}
-    </SafeAreaView>
+  <NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen name="HomeScreen" component={HomeScreen} options={{
+          headerShown: false,}}/>
+      <Stack.Screen name="DetailScreen" component={DetailScreen} options = {{
+          title: 'Song Details',
+          headerStyle: {
+            backgroundColor: Themes.colors.background,
+          },
+          headerTitleStyle: {
+            color: 'white',
+          }
+      }}/>
+      <Stack.Screen name="PreviewScreen" component={PreviewScreen} options= {{
+          title: 'Song Preview',
+          headerStyle: {
+            backgroundColor: Themes.colors.background,
+          },
+          headerTitleStyle: {
+            color: 'white',
+          }
+      }}/>
+    </Stack.Navigator>
+  </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Themes.colors.background,
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-  },
-});

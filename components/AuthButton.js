@@ -2,7 +2,6 @@ import {Pressable, Text, StyleSheet, Image, Dimensions, View} from "react-native
 import {Images, Themes} from "../assets/Themes";
 
 const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
 
 
 const AuthButton = ({authenticationFunction}) =>{
